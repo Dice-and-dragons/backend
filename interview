@@ -1,0 +1,54 @@
+import { Request, Response } from "express";
+
+import { IPost } from "../models/posts";
+import { handleControllerError } from "../utils/default-handlers";
+import AxiosService from "../services/axios";
+
+export default class PostsController {
+    // Define an asynchronous function to handle the GET '/posts' endpoint
+    static getPosts = async (req: Request, res: Response) => {
+      try {
+        // Make a GET request to the external API to fetch a list of posts
+        const posts = await AxiosService.placeholderApiInstance.get<IPost>("posts");
+  
+        // Create an object to store the count of posts by each user
+        const postsCount = posts.reduce((result , post) => {
+          // Skip posts without a 'userId'
+          if (!post.userId) return result;
+  
+          // If the user's 'userId' is not in the object, initialize it with 1 post
+          if (!result[post.userId]) {
+            result[post.userId] = 1;
+          } else {
+            // If the user's 'userId' is in the object, increment the post count
+            result[post.userId]++;
+          }
+          return result;
+        }, {});
+  
+        // Expand each post by adding a 'userPostsCount' property
+        const expandedPosts = posts.map((post) => ({
+          ...post, // Include the original post data
+          userPostsCount: postsCount[post.userId] || 0, // Add the post count for the user
+        }));
+  
+        // Set the HTTP response status to 200 (OK) and send the expanded posts as JSON
+        res.status(200).json(expandedPosts);
+      } catch (err) {
+        // If an error occurs during the process, handle it here
+        handleControllerError(err as Error, res);
+      }
+    };
+  }
+
+router.get("/posts", PostsController.getPosts);
+
+interface IPost {
+    id: number;
+    userId: number;
+    title: string;
+    body: string;
+    userPostsCount?: number;
+  }
+
+  
