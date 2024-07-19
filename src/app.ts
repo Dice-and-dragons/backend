@@ -2,6 +2,8 @@ import http from "http";
 import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import { Server } from "socket.io";
+import {db} from "@utils/database"
+import { characters } from "./schemas/dbSchema";
 
 const app = express();
 app.use(cors());
@@ -36,6 +38,7 @@ io.on('connection', (socket) => {
   // Handle disconnection
   socket.on('disconnect', () => {
     console.log('user disconnected:', socket.id);
+    console.log(db.select().from(characters) || 'asfsa')
   });
 });
 
