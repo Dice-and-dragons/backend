@@ -1,31 +1,46 @@
-import express from 'express';
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
-import { config } from 'dotenv';
-import { UserRouter } from './routers/UserRouters';
-import { UserProfileRouter } from './routers/UserProfileRouters';
-import { SpellsRouter } from './routers/SpellsRouters';
-import { handleNotFound, handleError } from './utils/ErrorHandlers';
-
-
-config();
+import http from "http";
+import express, { NextFunction, Request, Response } from "express";
+import cors from "cors";
+import { Server } from "socket.io";
 
 const app = express();
-
-app.use(cookieParser());
-app.use(express.json());
 app.use(cors());
-app.use(handleError);
-app.use(handleNotFound);
 
-const userRouter = new UserRouter('/users');
-const userProfileRouter = new UserProfileRouter('/userProfile');
-const spellsRouter = new SpellsRouter('/spells');
-
-const routers = [userRouter, userProfileRouter, spellsRouter];
-
-routers.forEach((router) => {
-    app.use(router.path, router.router);
+// Set up your Express routes, middleware, etc.
+app.get('/', (req: Request, res: Response) => {
+  res.send('Hello World!');
 });
 
-export default app;
+// Create HTTP server
+const server = http.createServer(app);
+
+// Integrate Socket.io
+const io = new Server(server, {
+  cors: {
+    origin: '*',
+  }
+});
+
+// WebSocket connection handler
+io.on('connection', (socket) => {
+  console.log('a user connected:', socket.id);
+
+  // Listen for 'ping' event from the client
+  socket.on('test', () => {
+    console.log('Ping received from:', socket.id);
+    
+    // Emit 'ping' event to all other connected clients
+    socket.broadcast.emit('test');
+  });
+
+  // Handle disconnection
+  socket.on('disconnect', () => {
+    console.log('user disconnected:', socket.id);
+  });
+});
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

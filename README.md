@@ -1,3 +1,2 @@
-# backend
-backend for Dice and Dragons
-
+# dice-and-dragons-api
+ 
