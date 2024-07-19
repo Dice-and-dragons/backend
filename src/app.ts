@@ -26,11 +26,11 @@ io.on('connection', (socket) => {
   console.log('a user connected:', socket.id);
 
   // Listen for 'ping' event from the client
-  socket.on('test', () => {
+  socket.on('ping', () => {
     console.log('Ping received from:', socket.id);
     
     // Emit 'ping' event to all other connected clients
-    socket.broadcast.emit('test');
+    socket.broadcast.emit('ping');
   });
 
   // Handle disconnection
