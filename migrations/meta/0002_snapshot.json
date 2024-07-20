@@ -1,6 +1,6 @@
 {
-  "id": "785b3cfd-1d89-4015-a278-044772a23aef",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "ba42bf6a-5d07-4515-904b-4a2aeca466d6",
+  "prevId": "86a837da-9cef-4d30-833a-3cb898f16a87",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -42,11 +42,17 @@
           "primaryKey": true,
           "notNull": true
         },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
         "position": {
           "name": "position",
           "type": "json",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "character_data": {
           "name": "character_data",
@@ -56,7 +62,21 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "characters_user_id_users_id_fk": {
+          "name": "characters_user_id_users_id_fk",
+          "tableFrom": "characters",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },

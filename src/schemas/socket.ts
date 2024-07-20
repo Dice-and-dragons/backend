@@ -1,5 +1,5 @@
 export enum SocketCharacterEvents {
-  Create = "create",
+  Add = "add",
   Move = "move",
   Remove = "remove",
 }
@@ -7,4 +7,5 @@ export enum SocketCharacterEvents {
 export enum SocketServerEvents {
   Connection = "connection",
   Disconnect = "disconnect",
+  Update = "update"
 }

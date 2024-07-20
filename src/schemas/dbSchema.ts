@@ -37,6 +37,7 @@ export const background = pgTable("backgrounds", {
 
 export const characters = pgTable("characters", {
   id: text("id").primaryKey(),
+  userId: text("user_id").references(() => users.id),
   position: json("position").$type<PositionType>(),
   characterData: json("character_data").$type<CharacterType>(),
 });

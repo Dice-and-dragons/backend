@@ -10,21 +10,21 @@ export const socketServer = (io: Server) => {
       socket.broadcast.emit("ping");
     });
 
-    socket.on(SocketCharacterEvents.Create, (data) => {
-      const id = CharacterDao.createCharacter({});
-      socket.emit("id", id);
-      socket.broadcast.emit("update");
+    socket.on(SocketCharacterEvents.Add, (data) => {
+      CharacterDao.addToField(data.id, data.position);
+      socket.broadcast.emit(SocketServerEvents.Update);
     });
 
     socket.on(SocketCharacterEvents.Move, (data) => {
       CharacterDao.moveToPosition(data.id, data.position);
-      socket.broadcast.emit("update");
+      socket.broadcast.emit(SocketServerEvents.Update);
     });
 
     socket.on(SocketCharacterEvents.Remove, (data) => {
       CharacterDao.removeFromTable(data.id);
-      socket.broadcast.emit("update");
+      socket.broadcast.emit(SocketServerEvents.Update);
     });
+
     socket.on(SocketServerEvents.Disconnect, () => {
       console.log("Disconnect");
     });

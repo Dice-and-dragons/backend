@@ -7,13 +7,23 @@ import { eq } from "drizzle-orm";
 export class CharacterDao {
   constructor() {}
 
-  public static createCharacter = async (characterData: CharacterType) => {
+  public static createCharacter = async (characterData: CharacterType, userId: string) => {
     const character = {
-      id: "1",
+      id: randomUUID(),
       characterData: characterData,
+      userId: userId
     };
     await db.insert(characters).values(character).execute();
     return character.id;
+  };
+
+  public static addToField = async (id: string, position: PositionType) => {
+    await db
+      .update(characters)
+      //@ts-ignore
+      .set({ position: position })
+      .where(eq(characters.id, id))
+      .execute();
   };
 
   public static moveToPosition = async (
@@ -37,7 +47,19 @@ export class CharacterDao {
       .execute();
   };
 
-  public static updateCharacter = async (characterData: CharacterType) => {};
+  public static updateCharacter = async (
+    id: string,
+    characterData: CharacterType
+  ) => {
+    await db
+      .update(characters)
+      //@ts-ignore
+      .set({ characterData: characterData })
+      .where(eq(characters.id, id))
+      .execute();
+  };
 
-  public static deleteCharacter = async (id: string) => {};
+  public static deleteCharacter = async (id: string) => {
+    await db.delete(characters).where(eq(characters.id, id));
+  };
 }

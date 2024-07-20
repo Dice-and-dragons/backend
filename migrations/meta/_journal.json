@@ -15,6 +15,13 @@
       "when": 1721408474721,
       "tag": "0001_flippant_mariko_yashida",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1721503403257,
+      "tag": "0002_long_maestro",
+      "breakpoints": true
     }
   ]
 }
