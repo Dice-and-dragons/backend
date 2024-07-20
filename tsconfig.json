@@ -23,7 +23,8 @@
       "@routers/*": ["./routers/*"],
       "@dao/*": ["./dao/*"],
       "@config/*": ["./config/*"],
-      "@utils/*": ["./utils/*"]
+      "@utils/*": ["./utils/*"],
+      "@socket/*": ["./socket/*"]
     }
   },
   "include": ["./src"],

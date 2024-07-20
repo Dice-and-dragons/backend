@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsx ./src/app.ts"
+    "start": "tsx ./src/app.ts",
+    "generate": "npx drizzle-kit generate",
+    "migrate": "npx drizzle-kit migrate"
   },
   "author": "Anton Mykolenko",
   "license": "ISC",

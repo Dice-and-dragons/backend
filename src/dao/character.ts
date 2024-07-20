@@ -9,28 +9,35 @@ export class CharacterDao {
 
   public static createCharacter = async (characterData: CharacterType) => {
     const character = {
-      id: randomUUID(),
-      position: {x: -1, y: -1},
-      characterData: characterData
-    }
+      id: "1",
+      characterData: characterData,
+    };
     await db.insert(characters).values(character).execute();
-  }
+    return character.id;
+  };
 
-  public static moveToPosition = async (id: string, newPosition: PositionType) => {
-    await db.update(characters)
-    .set({ position: newPosition })
-    .where(eq(characters.id, id));
-  }
+  public static moveToPosition = async (
+    id: string,
+    newPosition: PositionType
+  ) => {
+    await db
+      .update(characters)
+      //@ts-ignore
+      .set({ position: newPosition })
+      .where(eq(characters.id, id))
+      .execute();
+  };
 
-  public static removeFromTable = async () => {
+  public static removeFromTable = async (id: string) => {
+    await db
+      .update(characters)
+      //@ts-ignore
+      .set({ position: null })
+      .where(eq(characters.id, id))
+      .execute();
+  };
 
-  }
+  public static updateCharacter = async (characterData: CharacterType) => {};
 
-  public static updateCharacter = async (characterData: CharacterType) => {
-
-  }
-
-  public static deleteCharacter = async (id: string) => {
-
-  }
+  public static deleteCharacter = async (id: string) => {};
 }
