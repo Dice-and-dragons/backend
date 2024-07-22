@@ -4,11 +4,16 @@ import cors from "cors";
 import { Server } from "socket.io";
 import { db } from "@utils/database";
 import { characters } from "@schemas/dbSchema";
-import { CharacterDao } from "@dao/character";
+import { CharacterRouter } from "./routes/character";
 import { socketServer } from "@socket/socket";
 
 const app = express();
 app.use(cors());
+
+const routes = [new CharacterRouter("/character")];
+routes.forEach((route) => {
+  app.use(route.path, route.router);
+});
 
 // Set up your Express routes, middleware, etc.
 app.get("/", (req: Request, res: Response) => {
