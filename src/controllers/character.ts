@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { CharacterDao } from "@/dao/character";
+import { CharacterType } from "@/schemas/types";
 
 export class CharacterController {
   constructor() {}
@@ -9,9 +10,9 @@ export class CharacterController {
     res: Response,
     next: NextFunction
   ) => {
-    const id = CharacterDao.createCharacter(
-      req.query.characterData,
-      req.query.userId.toString()
+    const id = await CharacterDao.createCharacter(
+      req.body.characterData,
+      req.body.userId
     );
     return res.status(200).send(`Character created with id: ${id}`);
   };
@@ -21,7 +22,7 @@ export class CharacterController {
     res: Response,
     next: NextFunction
   ) => {
-    await CharacterDao.deleteCharacter(req.query.id.toString());
+    await CharacterDao.deleteCharacter(req.body.id.toString());
     return res.status(200).send("User successfully deleted");
   };
 
@@ -30,7 +31,10 @@ export class CharacterController {
     res: Response,
     next: NextFunction
   ) => {
-    await CharacterDao.updateCharacter(req.query.id.toString(), req.query.characterData);
+    await CharacterDao.updateCharacter(
+      req.body.id.toString(),
+      req.body.characterData
+    );
     return res.status(200).send("User successfully updated");
   };
 }

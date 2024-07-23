@@ -7,6 +7,8 @@ import { socketServer } from "@socket/socket";
 
 const app = express();
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const routes = [new CharacterRouter("/character")];
 routes.forEach((route) => {
