@@ -55,6 +55,7 @@ export const characterPositions = pgTable("character_positions", {
 export const history = pgTable("history", {
   id: text("id").primaryKey(),
   characterId: text("character_id").references(() => characters.id),
+  backgroundId: text("background_id").references(() => backgrounds.id),
   positionFrom: json("position_from").$type<PositionType>(),
   positionTo: json("position_to").$type<PositionType>(),
   time: timestamp("time"),

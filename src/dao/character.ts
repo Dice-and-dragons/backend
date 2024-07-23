@@ -26,12 +26,20 @@ export class CharacterDao {
     position: PositionType
   ) => {
     const characterPosition = {
-      id: randomUUID(), 
+      id: randomUUID(),
       characterId: characterId,
       backgroundId: backgroundId,
       position: position,
     };
     await db.insert(characterPositions).values(characterPosition).execute();
+    const historyUpdate = {
+      id: randomUUID(),
+      characterId: characterId,
+      backgroundId: backgroundId,
+      positionTo: position,
+      time: new Date(),
+    };
+    await db.insert(history).values(historyUpdate).execute();
   };
 
   public static moveToPosition = async (
@@ -39,6 +47,24 @@ export class CharacterDao {
     backgroundId: string,
     newPosition: PositionType
   ) => {
+    const previousPosition = await db
+      .select()
+      .from(characterPositions)
+      .where(
+        and(
+          eq(characterPositions.characterId, characterId),
+          eq(characterPositions.backgroundId, backgroundId)
+        )
+      );
+    const historyUpdate = {
+      id: randomUUID(),
+      characterId: characterId,
+      backgroundId: backgroundId,
+      positionFrom: previousPosition[0].position,
+      positionTo: newPosition,
+      time: new Date(),
+    };
+    await db.insert(history).values(historyUpdate).execute();
     await db
       .update(characterPositions)
       //@ts-ignore
@@ -56,6 +82,23 @@ export class CharacterDao {
     characterId: string,
     backgroundId: string
   ) => {
+    const previousPosition = await db
+      .select()
+      .from(characterPositions)
+      .where(
+        and(
+          eq(characterPositions.characterId, characterId),
+          eq(characterPositions.backgroundId, backgroundId)
+        )
+      );
+    const historyUpdate = {
+      id: randomUUID(),
+      characterId: characterId,
+      backgroundId: backgroundId,
+      positionFrom: previousPosition[0].position,
+      time: new Date(),
+    };
+    await db.insert(history).values(historyUpdate).execute();
     await db
       .delete(characterPositions)
       .where(
