@@ -1,5 +1,6 @@
 # Dice-and-dragons API Endpoints
 
+### REST API
 ## Create Character
 
 - **URL:** `/character/create`
@@ -32,9 +33,18 @@
   - **Code:** 200
   - **Content:** `User successfully deleted`
 
-## Notes
+### Websocket API
 
-- All endpoints are prefixed with the base path defined in the `CharacterRouter` constructor.
-- The API uses query parameters instead of request body for data input.
-- Error handling is not explicitly defined in the provided code.
-- Authentication and authorization mechanisms are not shown in the provided code.
+1. **Add Event (add)**
+   - `id`: Character ID
+   - `backgroundId`: ID of the background to add the character to
+   - `position`: Position of the character on the background
+
+2. **Move Event (move)**
+   - `id`: Character ID
+   - `backgroundId`: ID of the background where the character is located
+   - `position`: New position of the character on the background
+
+3. **Remove Event (remove)**
+   - `id`: Character ID
+   - `backgroundId`: ID of the background to remove the character from
