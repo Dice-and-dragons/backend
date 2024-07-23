@@ -1,49 +1,69 @@
-import { characters, history } from "@/schemas/dbSchema";
+import { characterPositions, characters, history } from "@/schemas/dbSchema";
 import { CharacterType, PositionType } from "@/schemas/types";
 import { db } from "@/utils/database";
 import { randomUUID } from "crypto";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 
 export class CharacterDao {
   constructor() {}
 
-  public static createCharacter = async (characterData: CharacterType, userId: string) => {
+  public static createCharacter = async (
+    characterData: CharacterType,
+    userId: string
+  ) => {
     const character = {
       id: randomUUID(),
       characterData: characterData,
-      userId: userId
+      userId: userId,
     };
     await db.insert(characters).values(character).execute();
     return character.id;
   };
 
-  public static addToField = async (id: string, position: PositionType) => {
-    await db
-      .update(characters)
-      //@ts-ignore
-      .set({ position: position })
-      .where(eq(characters.id, id))
-      .execute();
+  public static addToField = async (
+    characterId: string,
+    backgroundId: string,
+    position: PositionType
+  ) => {
+    const characterPosition = {
+      id: randomUUID(), 
+      characterId: characterId,
+      backgroundId: backgroundId,
+      position: position,
+    };
+    await db.insert(characterPositions).values(characterPosition).execute();
   };
 
   public static moveToPosition = async (
-    id: string,
+    characterId: string,
+    backgroundId: string,
     newPosition: PositionType
   ) => {
     await db
-      .update(characters)
+      .update(characterPositions)
       //@ts-ignore
       .set({ position: newPosition })
-      .where(eq(characters.id, id))
+      .where(
+        and(
+          eq(characterPositions.characterId, characterId),
+          eq(characterPositions.backgroundId, backgroundId)
+        )
+      )
       .execute();
   };
 
-  public static removeFromTable = async (id: string) => {
+  public static removeFromTable = async (
+    characterId: string,
+    backgroundId: string
+  ) => {
     await db
-      .update(characters)
-      //@ts-ignore
-      .set({ position: null })
-      .where(eq(characters.id, id))
+      .delete(characterPositions)
+      .where(
+        and(
+          eq(characterPositions.characterId, characterId),
+          eq(characterPositions.backgroundId, backgroundId)
+        )
+      )
       .execute();
   };
 
@@ -60,6 +80,6 @@ export class CharacterDao {
   };
 
   public static deleteCharacter = async (id: string) => {
-    await db.delete(characters).where(eq(characters.id, id));
+    await db.delete(characters).where(eq(characters.id, id)).execute();
   };
 }

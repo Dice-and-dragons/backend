@@ -24,4 +24,13 @@ export class CharacterController {
     await CharacterDao.deleteCharacter(req.query.id.toString());
     return res.status(200).send("User successfully deleted");
   };
+
+  public updateCharacter = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    await CharacterDao.updateCharacter(req.query.id.toString(), req.query.characterData);
+    return res.status(200).send("User successfully updated");
+  };
 }

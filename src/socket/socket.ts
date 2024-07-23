@@ -11,17 +11,17 @@ export const socketServer = (io: Server) => {
     });
 
     socket.on(SocketCharacterEvents.Add, (data) => {
-      CharacterDao.addToField(data.id, data.position);
+      CharacterDao.addToField(data.id, data.backgroundId, data.position);
       socket.broadcast.emit(SocketServerEvents.Update);
     });
 
     socket.on(SocketCharacterEvents.Move, (data) => {
-      CharacterDao.moveToPosition(data.id, data.position);
+      CharacterDao.moveToPosition(data.id, data.backgroundId, data.position);
       socket.broadcast.emit(SocketServerEvents.Update);
     });
 
     socket.on(SocketCharacterEvents.Remove, (data) => {
-      CharacterDao.removeFromTable(data.id);
+      CharacterDao.removeFromTable(data.id, data.backgroundId);
       socket.broadcast.emit(SocketServerEvents.Update);
     });
 

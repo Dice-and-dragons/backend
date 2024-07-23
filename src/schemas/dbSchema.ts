@@ -2,11 +2,9 @@ import {
   pgTable,
   text,
   timestamp,
-  integer,
-  boolean,
-  json,
   varchar,
-  smallint,
+  json,
+  integer,
 } from "drizzle-orm/pg-core";
 import {
   PositionType,
@@ -15,6 +13,7 @@ import {
   RoomsType,
 } from "@schemas/types";
 
+// Users Table
 export const users = pgTable("users", {
   id: text("id").primaryKey(),
   name: varchar("name", { length: 32 }),
@@ -22,6 +21,7 @@ export const users = pgTable("users", {
   rooms: json("rooms").$type<RoomsType>(),
 });
 
+// Messages Table
 export const messages = pgTable("messages", {
   id: text("id").primaryKey(),
   userId: text("user_id").references(() => users.id),
@@ -29,19 +29,29 @@ export const messages = pgTable("messages", {
   text: text("text"),
 });
 
-export const background = pgTable("backgrounds", {
+// Backgrounds Table
+export const backgrounds = pgTable("backgrounds", {
   id: text("id").primaryKey(),
   name: varchar("name", { length: 32 }),
   image: text("image"),
 });
 
+// Characters Table
 export const characters = pgTable("characters", {
   id: text("id").primaryKey(),
   userId: text("user_id").references(() => users.id),
-  position: json("position").$type<PositionType>(),
   characterData: json("character_data").$type<CharacterType>(),
 });
 
+// Character Positions Table (Junction Table)
+export const characterPositions = pgTable("character_positions", {
+  id: text("id").primaryKey(),
+  characterId: text("character_id").references(() => characters.id),
+  backgroundId: text("background_id").references(() => backgrounds.id),
+  position: json("position").$type<PositionType>(),
+});
+
+// History Table
 export const history = pgTable("history", {
   id: text("id").primaryKey(),
   characterId: text("character_id").references(() => characters.id),
@@ -50,7 +60,8 @@ export const history = pgTable("history", {
   time: timestamp("time"),
 });
 
-export const roomSettings = pgTable("roomSettings", {
+// Room Settings Table
+export const roomSettings = pgTable("room_settings", {
   id: text("id").primaryKey(),
   name: varchar("name", { length: 32 }),
   deckSize: json("deck_size").$type<SizeType>(),
