@@ -25,6 +25,21 @@ export const socketServer = (io: Server) => {
       socket.broadcast.emit(SocketServerEvents.Update);
     });
 
+    socket.on(SocketCharacterEvents.Create, (data) => {
+      CharacterDao.createCharacter(data.character, data.userId);
+      socket.broadcast.emit(SocketServerEvents.Update);
+    });
+
+    socket.on(SocketCharacterEvents.Delete, (data) => {
+      CharacterDao.deleteCharacter(data.id);
+      socket.broadcast.emit(SocketServerEvents.Update);
+    });
+
+    socket.on(SocketCharacterEvents.Update, (data) => {
+      CharacterDao.updateCharacter(data.id, data.character);
+      socket.broadcast.emit(SocketServerEvents.Update);
+    });
+
     socket.on(SocketServerEvents.Disconnect, () => {
       console.log("Disconnect");
     });
