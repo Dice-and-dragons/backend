@@ -61,9 +61,10 @@ Dice-and-Dragons API provides WebSocket endpoints for managing characters in the
 - **`update`**: Broadcasted by the server to all clients when any character is created, updated, deleted, added, moved, or removed.
 - **`disconnect`**: Triggered when a user disconnects from the server.
 
-## Type Defenitions
+## Type Definitions
 
-- type CharacterType = {
+```typescript
+type CharacterType = {
   // Character Information
   name: string;
   class: string;
@@ -187,3 +188,4 @@ Dice-and-Dragons API provides WebSocket endpoints for managing characters in the
   // Additional Notes
   additionalNotes: string;
 };
+```
