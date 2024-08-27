@@ -125,4 +125,12 @@ export class CharacterDao {
   public static deleteCharacter = async (id: string) => {
     await db.delete(characters).where(eq(characters.id, id)).execute();
   };
+
+  public getCharactersPositions = async (background_id: string) => {
+    const positions = await db
+      .select()
+      .from(characterPositions)
+      .where(eq(characterPositions.backgroundId, background_id));
+    return positions;
+  };
 }

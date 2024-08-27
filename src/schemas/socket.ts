@@ -7,6 +7,10 @@ export enum SocketCharacterEvents {
   Delete = "delete"
 }
 
+export enum SocketTableEvents {
+  Chaeacters = "characters"
+}
+
 export enum SocketServerEvents {
   Connection = "connection",
   Disconnect = "disconnect",

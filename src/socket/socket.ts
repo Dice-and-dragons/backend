@@ -1,6 +1,10 @@
 import { Server, Socket } from "socket.io";
 import { CharacterDao } from "@/dao/character";
-import { SocketCharacterEvents, SocketServerEvents } from "@/schemas/socket";
+import {
+  SocketCharacterEvents,
+  SocketServerEvents,
+  SocketTableEvents,
+} from "@/schemas/socket";
 
 export const socketServer = (io: Server) => {
   io.on(SocketServerEvents.Connection, (socket) => {
@@ -38,6 +42,10 @@ export const socketServer = (io: Server) => {
     socket.on(SocketCharacterEvents.Update, (data) => {
       CharacterDao.updateCharacter(data.id, data.character);
       socket.broadcast.emit(SocketServerEvents.Update);
+    });
+
+    socket.on(SocketTableEvents.Chaeacters, (data) => {
+      
     });
 
     socket.on(SocketServerEvents.Disconnect, () => {
