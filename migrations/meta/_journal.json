@@ -15,6 +15,27 @@
       "when": 1721408474721,
       "tag": "0001_flippant_mariko_yashida",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1721503403257,
+      "tag": "0002_long_maestro",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1721724511888,
+      "tag": "0003_cuddly_black_tarantula",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1721756977590,
+      "tag": "0004_white_victor_mancha",
+      "breakpoints": true
     }
   ]
 }

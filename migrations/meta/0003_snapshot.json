@@ -1,6 +1,6 @@
 {
-  "id": "785b3cfd-1d89-4015-a278-044772a23aef",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "deff3be9-60cf-466d-a91f-e18f774f32bf",
+  "prevId": "ba42bf6a-5d07-4515-904b-4a2aeca466d6",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -32,6 +32,67 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
+    "public.character_positions": {
+      "name": "character_positions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "character_id": {
+          "name": "character_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "background_id": {
+          "name": "background_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "position": {
+          "name": "position",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "character_positions_character_id_characters_id_fk": {
+          "name": "character_positions_character_id_characters_id_fk",
+          "tableFrom": "character_positions",
+          "tableTo": "characters",
+          "columnsFrom": [
+            "character_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "character_positions_background_id_backgrounds_id_fk": {
+          "name": "character_positions_background_id_backgrounds_id_fk",
+          "tableFrom": "character_positions",
+          "tableTo": "backgrounds",
+          "columnsFrom": [
+            "background_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
     "public.characters": {
       "name": "characters",
       "schema": "",
@@ -42,11 +103,11 @@
           "primaryKey": true,
           "notNull": true
         },
-        "position": {
-          "name": "position",
-          "type": "json",
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "character_data": {
           "name": "character_data",
@@ -56,7 +117,21 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "characters_user_id_users_id_fk": {
+          "name": "characters_user_id_users_id_fk",
+          "tableFrom": "characters",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
@@ -162,8 +237,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "public.roomSettings": {
-      "name": "roomSettings",
+    "public.room_settings": {
+      "name": "room_settings",
       "schema": "",
       "columns": {
         "id": {
