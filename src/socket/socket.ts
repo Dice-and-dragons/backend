@@ -44,8 +44,9 @@ export const socketServer = (io: Server) => {
       socket.broadcast.emit(SocketServerEvents.Update);
     });
 
-    socket.on(SocketTableEvents.Chaeacters, (data) => {
-      
+    socket.on(SocketTableEvents.Characters, (data) => {
+      const positions = CharacterDao.getCharactersPositions(data.backgroundId);
+      socket.send(positions);
     });
 
     socket.on(SocketServerEvents.Disconnect, () => {

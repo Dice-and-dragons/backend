@@ -8,7 +8,7 @@ export enum SocketCharacterEvents {
 }
 
 export enum SocketTableEvents {
-  Chaeacters = "characters"
+  Characters = "characters"
 }
 
 export enum SocketServerEvents {
