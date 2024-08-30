@@ -4,11 +4,15 @@ export enum SocketCharacterEvents {
   Remove = "remove",
   Create = "create",
   Update = "update",
-  Delete = "delete"
+  Delete = "delete",
+  Characters = "characters",
 }
 
-export enum SocketTableEvents {
-  Characters = "characters"
+
+export enum SocketBackgroundEvents {
+  Create = "create",
+  Update = "update",
+  Delete = "delete",
 }
 
 export enum SocketServerEvents {
